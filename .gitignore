@@ -1,3 +1,5 @@
+doc/
+.yardoc/
 .bundle/
 log/*.log
 pkg/

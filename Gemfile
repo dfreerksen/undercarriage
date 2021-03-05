@@ -7,6 +7,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gemspec
 
 group :development do
+  gem 'yard', '~> 0.9.26'
 end
 
 group :development, :test do
