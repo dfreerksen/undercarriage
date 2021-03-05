@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'undercarriage/controllers/kaminari_concern'
+require 'undercarriage/controllers/locale_concern'
+
 require 'undercarriage/railtie'
 
 ##
