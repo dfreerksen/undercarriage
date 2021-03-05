@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    undercarriage (0.1.0)
+    undercarriage (0.2.0)
       rails (>= 6.0.3)
 
 GEM
