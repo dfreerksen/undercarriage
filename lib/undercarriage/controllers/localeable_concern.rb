@@ -22,6 +22,44 @@ module Undercarriage
 
       included do
         around_action :identify_locale
+
+        helper_method :html_lang, :html_dir
+      end
+
+      ##
+      # Lang
+      #
+      # Helper for Views to return the identified language.
+      #
+      # Usage
+      #   <html lang="<%= html_lang %>"> #=> '<html lang="de">'
+      #   <html lang="<%= html_lang %>"> #=> '<html lang="de-at">'
+      #
+      def html_lang
+        I18n.locale.to_s
+      end
+
+      ##
+      # Text direction
+      #
+      # Helper for Views to return text direction based on locale. Display text left-to-right for all languages but a
+      # few languages which should display as right-to-left. Returns `rtl` for the following languages:
+      #   Arabic
+      #   Aramaic
+      #   Azeri
+      #   Divehi
+      #   Hebrew
+      #   Persian/Farsi
+      #   Urdu
+      #
+      # Usage
+      #   <html dir="<%= html_dir %>"> #=> <html dir="ltr">
+      #   <html dir="<%= html_dir %>"> #=> <html dir="rtl">
+      #
+      def html_dir
+        rtl_languages = %w[am ar az dv fa he ur]
+
+        html_lang.start_with?(*rtl_languages) ? 'rtl' : 'ltr'
       end
 
       protected
