@@ -5,7 +5,7 @@ require 'undercarriage/railtie'
 ##
 # Undercarriage
 #
-# Base resources to remove some of the fat
+# Undercarriage is a set of concerns to add to your application to trim some of the fat from controllers and models.
 #
 module Undercarriage
   # Your code goes here...

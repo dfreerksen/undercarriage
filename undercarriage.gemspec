@@ -10,8 +10,9 @@ Gem::Specification.new do |spec|
   spec.authors     = ['David Freerksen']
   spec.email       = ['dfreerksen@gmail.com']
   spec.homepage    = 'https://github.com/dfreerksen/undercarriage'
-  spec.summary     = 'Base resources to remove some of the fat.'
-  spec.description = 'Base resources to remove some of the fat.'
+  spec.summary     = 'Controller and model concerns for Ruby on Rails.'
+  spec.description = 'Undercarriage is a set of concerns to add to your application to trim some of the fat from ' \
+                     'controllers and models.'
   spec.license     = 'MIT'
 
   spec.required_ruby_version = '>= 2.5'

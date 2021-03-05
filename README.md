@@ -1,10 +1,8 @@
 # Undercarriage
 
-**Undercarriage is currently under development. It is not ready for production use.**
+**\*Undercarriage is currently under development. It is not ready for production use.\***
 
-Base resources to remove some of the fat.
-
-Undercarriage is a set of concerns to add to your application to help trim some of the fat from controllers and models.
+Undercarriage is a set of concerns to add to your application to trim some of the fat from controllers and models.
 
 ## Requirements
 
