@@ -5,7 +5,8 @@ module Undercarriage
     ##
     # Kaminari pagination
     #
-    # Helpers for Kaminari style pagination.
+    # Helpers for Kaminari style pagination. Note that the Kaminari gem is not loaded with dependency. It must be added
+    # to your own Gemfile
     #
     # Usage
     #   class ExamplesController < ApplicationController
