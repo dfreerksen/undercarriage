@@ -1,0 +1,106 @@
+# frozen_string_literal: true
+
+module Undercarriage
+  module Controllers
+    module Restful
+      module Actions
+        ##
+        # Create restful action
+        #
+        # Usage
+        #   class ExamplesController < ApplicationController
+        #     include Undercarriage::Controllers::RestfulConcern
+        #   end
+        #
+        module CreateConcern
+          extend ActiveSupport::Concern
+
+          included do
+            before_action :create_resource, only: %i[create]
+          end
+
+          ##
+          # Create action
+          #
+          # Usage
+          #   class ExamplesController < ApplicationController
+          #     include Undercarriage::Controllers::RestfulConcern
+          #
+          #     ##
+          #     # This method is only needed if you want to override the action entirely. Otherwise, it is not needed.
+          #     # Database resources can be accessed as `@create_resource` or `@example`
+          #     #
+          #     # def create
+          #     #   ...
+          #     # end
+          #   end
+          #
+          def create
+            nested_resource_pre_build
+
+            if @create_resource.save
+              after_create_action
+
+              respond_with(@create_resource) do |format|
+                format.html { redirect_to location_after_create }
+              end
+            else
+              nested_resource_build
+
+              respond_with(@create_resource) do |format|
+                format.html { render action: :new }
+              end
+            end
+          end
+
+          protected
+
+          ##
+          # Create restful action
+          #
+          # Usage
+          #   class ExamplesController < ApplicationController
+          #     include Undercarriage::Controllers::RestfulConcern
+          #
+          #     ##
+          #     # This method is only needed if you want to override the query entirely. Otherwise, it is not needed.
+          #     # Database resources can be accessed as `@example`
+          #     #
+          #     # def create_resource_content
+          #     #   ...
+          #     # end
+          #
+          #     ##
+          #     # To add authorization through something like Pundit, the following could be used
+          #     #
+          #     # def create_resource_content
+          #     #   super
+          #     #
+          #     #   authorize @example
+          #     # end
+          #
+          #     ##
+          #     # The `resource_new_content` method can also be overwritten. This method is meant to share content with
+          #     # the `new` action
+          #     #
+          #     # def resource_new_content
+          #     #   ...
+          #     # end
+          #   end
+          #
+          def create_resource_content
+            resource_query = model_class.new(create_resource_params)
+
+            instance_variable_set("@#{instance_name}", resource_query)
+          end
+
+          private
+
+          def create_resource
+            @create_resource ||= resource_new_content
+          end
+        end
+      end
+    end
+  end
+end
