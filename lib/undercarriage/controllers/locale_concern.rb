@@ -44,13 +44,14 @@ module Undercarriage
       #
       # Helper for Views to return text direction based on locale. Display text left-to-right for all languages but a
       # few languages which should display as right-to-left. Returns `rtl` for the following languages:
-      #   Arabic
-      #   Aramaic
-      #   Azeri
-      #   Divehi
-      #   Hebrew
-      #   Persian/Farsi
-      #   Urdu
+      #
+      # * Arabic
+      # * Aramaic
+      # * Azeri
+      # * Divehi
+      # * Hebrew
+      # * Persian/Farsi
+      # * Urdu
       #
       # Usage
       #   <html dir="<%= html_dir %>"> #=> <html dir="ltr">
