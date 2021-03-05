@@ -7,7 +7,7 @@ module Undercarriage
     #
     # Helpers for Kaminari style pagination.
     #
-    # Example
+    # Usage
     #   class ExamplesController < ApplicationController
     #     include Undercarriage::Controllers::KaminariConcern
     #
