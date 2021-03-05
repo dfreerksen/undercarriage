@@ -1,0 +1,8 @@
+--no-private
+--title "Undercarriage Documentation (dfreerksen/undercarriage)"
+--exclude spec
+lib/**/*.rb
+-
+README.md
+MIT-LICENSE
+docs/**/*.md
