@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'undercarriage/controllers/action_concern'
 require 'undercarriage/controllers/kaminari_concern'
 require 'undercarriage/controllers/locale_concern'
 
