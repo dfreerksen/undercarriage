@@ -1,0 +1,8 @@
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'bin/**/*'
+    - 'spec/dummy/bin/**/*'
