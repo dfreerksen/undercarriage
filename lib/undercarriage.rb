@@ -16,6 +16,7 @@ require 'undercarriage/controllers/restful/location_after_concern'
 require 'undercarriage/controllers/restful/namespace_concern'
 require 'undercarriage/controllers/restful/permitted_attributes_concern'
 require 'undercarriage/controllers/restful/utility_concern'
+require 'undercarriage/models/published_concern'
 
 require 'undercarriage/railtie'
 
