@@ -1,0 +1,7 @@
+<% @posts.each do |post| %>
+  <article class="article">
+    <header><%= post.title %></header>
+    <main><%= post.body %></main>
+    <footer><%= t('posts.index.published_at') %> <%= post.published_at %></footer>
+  </article>
+<% end %>
