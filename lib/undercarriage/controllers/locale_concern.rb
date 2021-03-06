@@ -75,7 +75,7 @@ module Undercarriage
         preferred_locales = (accepted_languages_header << I18n.default_locale.to_s).uniq
         available_locales = I18n.available_locales.map(&:to_s)
 
-        preferred_locales.intersection(available_locales).first
+        (preferred_locales & available_locales).first
       end
 
       def accepted_languages_header
