@@ -1,0 +1,7 @@
+ar:
+  hello: مرحبا
+  greetings:
+    show:
+      dir: اتجاه
+      greeting: تحية
+      lang: لغة
