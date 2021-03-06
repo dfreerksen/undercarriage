@@ -1,3 +1,4 @@
+coverage/
 doc/
 .yardoc/
 .bundle/
@@ -9,3 +10,4 @@ spec/dummy/db/*.sqlite3-*
 spec/dummy/log/*.log
 spec/dummy/storage/
 spec/dummy/tmp/
+spec/examples.txt
