@@ -2,7 +2,9 @@
 
 1. Clean up generated files
 
-        $ bundle exec rake clean
+    ```
+    $ bundle exec rake clean
+    ```
 
 2. Bump the gem version in `lib/undercarriage/version.rb`
 
@@ -14,11 +16,15 @@
 
     a. If this is a major or minor version update, change the `README.md` file to reflect the version
 
-        gem "undercarriage", "~> x.y"
+    ```
+    gem 'undercarriage', '~> x.y'
+    ```
 
 3. Build the gem
 
-        $ bundle exec rake build
+    ```
+    $ bundle exec rake build
+    ```
 
    This will create a new .gem file in `pkg/`. Fix any errors or warnings that come up.
 
@@ -26,6 +32,10 @@
 
 5. Create the gem, tag it in Github and release to Rubygems
 
-        $ bundle exec rake release
+    ```
+    $ bundle exec rake release
+    ```
 
-6. Profit!
+6. Profit!*
+
+\* It's open source so you probably won't profit

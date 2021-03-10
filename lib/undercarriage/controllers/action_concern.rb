@@ -209,22 +209,39 @@ module Undercarriage
 
       protected
 
+      ##
+      # Action symbol
+      #
+      # Take `action_name` (string) and turn it into a symbol
+      #
       def action
         action_name.to_sym
       end
 
+      ##
+      # Collection actions
+      #
       def collection_actions
         %i[index]
       end
 
+      ##
+      # Member actions
+      #
       def member_actions
         %i[edit show update]
       end
 
+      ##
+      # Create actions
+      #
       def create_actions
         %i[create new]
       end
 
+      ##
+      # Update actions
+      #
       def update_actions
         %i[edit update]
       end

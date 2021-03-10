@@ -3,6 +3,14 @@
 module Undercarriage
   module Controllers
     module Restful
+      ##
+      # Namespace
+      #
+      # Usage
+      #   class ExamplesController < ApplicationController
+      #     include Undercarriage::Controllers::Restful::NamespaceConcern
+      #   end
+      #
       module NamespaceConcern
         extend ActiveSupport::Concern
 

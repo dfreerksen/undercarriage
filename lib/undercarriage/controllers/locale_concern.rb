@@ -65,6 +65,11 @@ module Undercarriage
 
       protected
 
+      ##
+      # Set I18n locale
+      #
+      # Set I18n locale for the request
+      #
       def identify_locale(&action)
         I18n.with_locale(first_available_locale, &action)
       end

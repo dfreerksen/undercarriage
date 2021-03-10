@@ -61,10 +61,20 @@ module Undercarriage
 
       protected
 
+      ##
+      # Items per page key
+      #
+      # Query param to be used to identify count to be returned
+      #
       def per_page_key
         :per
       end
 
+      ##
+      # Page numberkey
+      #
+      # Query param to be used to identify page offset
+      #
       def page_num_key
         Kaminari.config.param_name
       end
