@@ -12,6 +12,5 @@ require:
 AllCops:
   NewCops: enable
   Exclude:
-    - 'db/migrate/*.rb'
-    - 'db/schema.rb'
     - 'node_modules/**/*'
+    - 'spec/dummy/db/schema.rb'

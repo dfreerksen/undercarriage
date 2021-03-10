@@ -33,7 +33,15 @@ TODO
 
 ## Code Analysis
 
-TODO
+Various tools are used to ensure code is linted and formatted correctly.
+
+### RuboCop
+
+[RuboCop](https://github.com/bbatsov/rubocop) is a Ruby static code analyzer.
+
+```
+$ rubocop
+```
 
 ## License
 
