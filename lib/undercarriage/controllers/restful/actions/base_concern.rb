@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 module Undercarriage
+  # :nodoc:
   module Controllers
+    # :nodoc:
     module Restful
+      # :nodoc:
       module Actions
         ##
         # Base restful action

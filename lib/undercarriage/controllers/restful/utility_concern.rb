@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Undercarriage
+  # :nodoc:
   module Controllers
+    # :nodoc:
     module Restful
       ##
       # Utility
