@@ -31,6 +31,15 @@ TODO
 
 * [ ] Allow a way to set locale instead of relying on browser preferred language in `Undercarriage::Controllers::LocaleConcern`
 
+## Testing
+
+Run tests with one of the following
+
+```
+$ bin/test
+$ bundle exec rspec spec
+```
+
 ## Code Analysis
 
 Various tools are used to ensure code is linted and formatted correctly.
