@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build:
+    environment:
+      CC_TEST_REPORTER_ID: 2c4a2d325822b887de26a9bc178739269eda81c683768db198ef88dae6872020
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      RAILS_ENV: test
+    docker:
+      - image: circleci/ruby:2.6.3
+    steps:
+      - checkout
+      - run:
+          name: install bundler
+          command: |
+            gem install bundler
+      - run:
+          name: install ruby dependencies
+          command: |
+            bundle install --jobs=4 --retry=3
+      - run:
+          name: setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          name: run tests
+          command: |
+            ./cc-test-reporter before-build
+            bundle exec rspec spec
+            ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
