@@ -2,6 +2,10 @@
 
 **\*Undercarriage is currently under development. It is not ready for production use.\***
 
+[![CircleCI](https://circleci.com/gh/dfreerksen/undercarriage.svg?style=shield)](https://circleci.com/gh/dfreerksen/undercarriage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d15980a534f8db936469/maintainability)](https://codeclimate.com/github/dfreerksen/undercarriage/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d15980a534f8db936469/test_coverage)](https://codeclimate.com/github/dfreerksen/undercarriage/test_coverage)
+
 Undercarriage is a set of concerns to add to your application to trim some of the fat from controllers and models.
 
 ## Requirements
