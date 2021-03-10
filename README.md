@@ -52,6 +52,23 @@ Various tools are used to ensure code is linted and formatted correctly.
 $ rubocop
 ```
 
+## Documentation
+
+[Yard](https://github.com/lsegal/yard) is used to generate documentation. [Online documentation is available](http://www.rubydoc.info/github/dfreerksen/undercarriage/master)
+
+Build the documentation with one of the following
+
+```
+$ yard
+$ yard doc
+```
+
+Build the documentation and list all undocumented objects
+
+```
+$ yard stats --list-undoc
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
