@@ -44,15 +44,11 @@ module Undercarriage
             if @create_resource.save
               after_create_action
 
-              respond_with(@create_resource) do |format|
-                format.html { redirect_to location_after_create }
-              end
+              redirect_to location_after_create, notice: flash_created_message
             else
               nested_resource_build
 
-              respond_with(@create_resource) do |format|
-                format.html { render action: :new }
-              end
+              render :new, status: :unprocessable_entity
             end
           end
 

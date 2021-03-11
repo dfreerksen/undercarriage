@@ -15,6 +15,7 @@ module Undercarriage
       extend ActiveSupport::Concern
 
       included do
+        include Undercarriage::Controllers::Restful::FlashConcern
         include Undercarriage::Controllers::Restful::LocationAfterConcern
         include Undercarriage::Controllers::Restful::NamespaceConcern
         include Undercarriage::Controllers::Restful::PermittedAttributesConcern

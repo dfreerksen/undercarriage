@@ -44,15 +44,11 @@ module Undercarriage
             if @update_resource.update(update_resource_params)
               after_update_action
 
-              respond_with(@update_resource) do |format|
-                format.html { redirect_to location_after_update }
-              end
+              redirect_to location_after_update, notice: flash_updated_message
             else
               nested_resource_build
 
-              respond_with(@update_resource) do |format|
-                format.html { render action: :edit }
-              end
+              render :edit, status: :unprocessable_entity
             end
           end
 

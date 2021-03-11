@@ -38,12 +38,7 @@ module Undercarriage
           #     # end
           #   end
           #
-          def index
-            respond_with(@index_resources) do |format|
-              format.html { render layout: !request.xhr? }
-              format.json { render layout: false }
-            end
-          end
+          def index; end
 
           protected
 

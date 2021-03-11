@@ -38,12 +38,7 @@ module Undercarriage
           #     # end
           #   end
           #
-          def show
-            respond_with(@show_resource) do |format|
-              format.html { render layout: !request.xhr? }
-              format.json { render layout: false }
-            end
-          end
+          def show; end
 
           protected
 

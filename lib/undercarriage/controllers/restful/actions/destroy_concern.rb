@@ -41,9 +41,7 @@ module Undercarriage
           def destroy
             @destroy_resource.destroy
 
-            respond_with(@destroy_resource) do |format|
-              format.html { redirect_to location_after_destroy }
-            end
+            redirect_to location_after_destroy, notice: flash_destroyed_message
           end
 
           protected

@@ -28,6 +28,13 @@ module Undercarriage
         end
 
         ##
+        # Singular human name
+        #
+        def controller_name_singular_human
+          controller_name_singular.humanize
+        end
+
+        ##
         # Model name
         #
         def model_name

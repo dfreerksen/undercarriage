@@ -41,10 +41,6 @@ module Undercarriage
           def new
             nested_resource_pre_build
             nested_resource_build
-
-            respond_with(@new_resource) do |format|
-              format.html { render layout: !request.xhr? }
-            end
           end
 
           protected
