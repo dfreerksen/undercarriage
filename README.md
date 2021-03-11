@@ -18,7 +18,7 @@ Undercarriage is a set of concerns to add to your application to trim some of th
 Add to your application's Gemfile
 
 ```
-gem 'undercarriage', '~> 0.3'
+gem 'undercarriage', '~> 0.4'
 ```
 
 Run the bundle command
