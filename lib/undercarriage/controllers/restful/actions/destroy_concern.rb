@@ -41,7 +41,9 @@ module Undercarriage
           def destroy
             @destroy_resource.destroy
 
-            redirect_to location_after_destroy, notice: flash_destroyed_message
+            flash[flash_status_type] = flash_destroyed_message
+
+            redirect_to location_after_destroy
           end
 
           protected

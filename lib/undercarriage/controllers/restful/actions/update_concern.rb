@@ -44,7 +44,9 @@ module Undercarriage
             if @update_resource.update(update_resource_params)
               after_update_action
 
-              redirect_to location_after_update, notice: flash_updated_message
+              flash[flash_status_type] = flash_updated_message
+
+              redirect_to location_after_update
             else
               nested_resource_build
 

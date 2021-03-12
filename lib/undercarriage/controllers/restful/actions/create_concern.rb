@@ -44,7 +44,9 @@ module Undercarriage
             if @create_resource.save
               after_create_action
 
-              redirect_to location_after_create, notice: flash_created_message
+              flash[flash_status_type] = flash_created_message
+
+              redirect_to location_after_create
             else
               nested_resource_build
 
