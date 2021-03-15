@@ -6,7 +6,17 @@ defaults: &defaults
     BUNDLE_RETRY: 3
     BUNDLE_PATH: ~/undercarriage/vendor/bundle
     RAILS_ENV: test
+  parameters:
+    ruby-version:
+      type: string
+      default: "3.0"
+  docker:
+    - image: circleci/ruby:<< parameters.ruby-version >>
   working_directory: ~/undercarriage
+  steps:
+    - run:
+        name: Ruby version
+        command: ruby --version
 commands:
   configure_bundler:
     description: Configure Bundler
@@ -31,49 +41,8 @@ jobs:
       - run:
           name: Run Rspec tests
           command: bundle exec rspec spec
-  ruby25:
+  ruby:
     <<: *defaults
-    docker:
-      - image: circleci/ruby:2.5
-    steps:
-      - checkout
-      - configure_bundler
-      - run:
-          name: Install Ruby Dependencies
-          command: bundle install --jobs=4 --retry=3
-      - run:
-          name: Run Rspec tests
-          command: bundle exec rspec spec
-  ruby26:
-    <<: *defaults
-    docker:
-      - image: circleci/ruby:2.6
-    steps:
-      - checkout
-      - configure_bundler
-      - run:
-          name: Install Ruby Dependencies
-          command: bundle install --jobs=4 --retry=3
-      - run:
-          name: Run Rspec tests
-          command: bundle exec rspec spec
-  ruby27:
-    <<: *defaults
-    docker:
-      - image: circleci/ruby:2.7
-    steps:
-      - checkout
-      - configure_bundler
-      - run:
-          name: Install Ruby Dependencies
-          command: bundle install --jobs=4 --retry=3
-      - run:
-          name: Run Rspec tests
-          command: bundle exec rspec spec
-  ruby30:
-    <<: *defaults
-    docker:
-      - image: circleci/ruby:3.0
     steps:
       - checkout
       - configure_bundler
@@ -87,11 +56,7 @@ workflows:
   version: 2
   integration:
     jobs:
-      - build
-      - ruby25
-      - ruby26
-      - ruby27
-      - ruby30:
+      - build:
           pre-steps:
             - run:
                 name: Install Code Climate Reporter
@@ -105,3 +70,8 @@ workflows:
             - run:
                 name: Upload Code Climate report
                 command: /tmp/cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
+      - ruby:
+          name: ruby-<< matrix.ruby-version >>
+          matrix:
+            parameters:
+              ruby-version: ["2.5", "2.6", "2.7", "3.0"]
