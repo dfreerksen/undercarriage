@@ -1,31 +1,79 @@
-version: 2
+version: 2.1
+defaults: &defaults
+  parallelism: 4
+  environment:
+    BUNDLE_JOBS: 4
+    BUNDLE_RETRY: 3
+    BUNDLE_PATH: ~/undercarriage/vendor/bundle
+    RAILS_ENV: test
+  parameters:
+    ruby-version:
+      type: string
+      default: "3.0"
+  docker:
+    - image: circleci/ruby:<< parameters.ruby-version >>
+  working_directory: ~/undercarriage
+commands:
+  configure_bundler:
+    description: Configure Bundler
+    steps:
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
 jobs:
   build:
-    environment:
-      CC_TEST_REPORTER_ID: 2c4a2d325822b887de26a9bc178739269eda81c683768db198ef88dae6872020
-      BUNDLE_JOBS: "3"
-      BUNDLE_RETRY: "3"
-      RAILS_ENV: test
+    <<: *defaults
     docker:
-      - image: circleci/ruby:2.6.3
+      - image: circleci/ruby
     steps:
+      - run:
+          name: Ruby version
+          command: ruby --version
       - checkout
+      - configure_bundler
       - run:
-          name: install bundler
-          command: |
-            gem install bundler
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3
       - run:
-          name: install ruby dependencies
-          command: |
-            bundle install --jobs=4 --retry=3
+          name: Run Rspec tests
+          command: bundle exec rspec spec
+  ruby:
+    <<: *defaults
+    steps:
       - run:
-          name: setup Code Climate test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
+          name: Ruby version
+          command: ruby --version
+      - checkout
+      - configure_bundler
       - run:
-          name: run tests
-          command: |
-            ./cc-test-reporter before-build
-            bundle exec rspec spec
-            ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3
+      - run:
+          name: Run Rspec tests
+          command: bundle exec rspec spec
+workflows:
+  version: 2
+  integration:
+    jobs:
+      - build:
+          pre-steps:
+            - run:
+                name: Install Code Climate Reporter
+                command: |
+                  curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /tmp/cc-test-reporter
+                  chmod +x /tmp/cc-test-reporter
+            - run:
+                name: Setup Code Climate Reporter
+                command: /tmp/cc-test-reporter before-build
+          post-steps:
+            - run:
+                name: Upload Code Climate report
+                command: /tmp/cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
+      - ruby:
+          name: ruby-<< matrix.ruby-version >>
+          matrix:
+            parameters:
+              ruby-version: ["2.5", "2.6", "2.7", "3.0"]
