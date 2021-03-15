@@ -13,10 +13,6 @@ defaults: &defaults
   docker:
     - image: circleci/ruby:<< parameters.ruby-version >>
   working_directory: ~/undercarriage
-  steps:
-    - run:
-        name: Ruby version
-        command: ruby --version
 commands:
   configure_bundler:
     description: Configure Bundler
@@ -33,6 +29,9 @@ jobs:
     docker:
       - image: circleci/ruby
     steps:
+      - run:
+          name: Ruby version
+          command: ruby --version
       - checkout
       - configure_bundler
       - run:
@@ -44,6 +43,9 @@ jobs:
   ruby:
     <<: *defaults
     steps:
+      - run:
+          name: Ruby version
+          command: ruby --version
       - checkout
       - configure_bundler
       - run:
