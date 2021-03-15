@@ -1,15 +1,47 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@0.1.2 
-
+  ruby: circleci/ruby@1.1
+commands:
+  configure_bundler:
+    description: Configure bundler
+    steps:
+      - run:
+          name: Configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
 jobs:
   build:
+    environment:
+      CC_TEST_REPORTER_ID: 2c4a2d325822b887de26a9bc178739269eda81c683768db198ef88dae6872020
+      RAILS_ENV: test
     docker:
-      - image: circleci/ruby:2.6.3-stretch-node
-    executor: ruby/default
+      - image: circleci/ruby:2.6.3
     steps:
       - checkout
+      - configure_bundler
       - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3
+      - run:
+          name: Run Rspec tests
+          command: bundle exec rspec spec
+workflows:
+  version: 2
+  integration:
+    jobs:
+      - build:
+          pre-steps:
+            - run:
+                name: Install Code Climate Reporter
+                command: |
+                  curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /tmp/cc-test-reporter
+                  chmod +x /tmp/cc-test-reporter
+            - run:
+                name: Setup Code Climate Reporter
+                command: /tmp/cc-test-reporter before-build
+          post-steps:
+            - run:
+                name: Upload Code Climate report
+                command: /tmp/cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
