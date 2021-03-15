@@ -35,11 +35,22 @@ jobs:
       - checkout
       - configure_bundler
       - run:
+          name: Install Code Climate Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
           name: Install Ruby Dependencies
           command: bundle install --jobs=4 --retry=3
       - run:
+          name: Setup Code Climate Reporter
+          command: ./cc-test-reporter before-build
+      - run:
           name: Run Rspec tests
           command: bundle exec rspec spec
+      - run:
+          name: Upload Code Climate report
+          command: ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
   ruby:
     <<: *defaults
     steps:
@@ -58,20 +69,7 @@ workflows:
   version: 2
   integration:
     jobs:
-      - build:
-          pre-steps:
-            - run:
-                name: Install Code Climate Reporter
-                command: |
-                  curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /tmp/cc-test-reporter
-                  chmod +x /tmp/cc-test-reporter
-            - run:
-                name: Setup Code Climate Reporter
-                command: /tmp/cc-test-reporter before-build
-          post-steps:
-            - run:
-                name: Upload Code Climate report
-                command: /tmp/cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
+      - build
       - ruby:
           name: ruby-<< matrix.ruby-version >>
           matrix:
