@@ -1,22 +1,79 @@
 version: 2.1
-orbs:
-  ruby: circleci/ruby@1.1
+defaults: &defaults
+  parallelism: 4
+  environment:
+    BUNDLE_JOBS: 4
+    BUNDLE_RETRY: 3
+    BUNDLE_PATH: ~/undercarriage/vendor/bundle
+    RAILS_ENV: test
+  working_directory: ~/undercarriage
 commands:
   configure_bundler:
-    description: Configure bundler
+    description: Configure Bundler
     steps:
       - run:
-          name: Configure bundler
+          name: Configure Bundler
           command: |
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV
             gem install bundler
 jobs:
   build:
-    environment:
-      RAILS_ENV: test
+    <<: *defaults
     docker:
-      - image: circleci/ruby:2.6.3
+      - image: circleci/ruby
+    steps:
+      - checkout
+      - configure_bundler
+      - run:
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3
+      - run:
+          name: Run Rspec tests
+          command: bundle exec rspec spec
+  ruby25:
+    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.5
+    steps:
+      - checkout
+      - configure_bundler
+      - run:
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3
+      - run:
+          name: Run Rspec tests
+          command: bundle exec rspec spec
+  ruby26:
+    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.6
+    steps:
+      - checkout
+      - configure_bundler
+      - run:
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3
+      - run:
+          name: Run Rspec tests
+          command: bundle exec rspec spec
+  ruby27:
+    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.7
+    steps:
+      - checkout
+      - configure_bundler
+      - run:
+          name: Install Ruby Dependencies
+          command: bundle install --jobs=4 --retry=3
+      - run:
+          name: Run Rspec tests
+          command: bundle exec rspec spec
+  ruby30:
+    <<: *defaults
+    docker:
+      - image: circleci/ruby:3.0
     steps:
       - checkout
       - configure_bundler
@@ -30,7 +87,11 @@ workflows:
   version: 2
   integration:
     jobs:
-      - build:
+      - build
+      - ruby25
+      - ruby26
+      - ruby27
+      - ruby30:
           pre-steps:
             - run:
                 name: Install Code Climate Reporter
