@@ -14,7 +14,6 @@ commands:
 jobs:
   build:
     environment:
-      CC_TEST_REPORTER_ID: 2c4a2d325822b887de26a9bc178739269eda81c683768db198ef88dae6872020
       RAILS_ENV: test
     docker:
       - image: circleci/ruby:2.6.3
