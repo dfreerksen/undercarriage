@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gemspec
 
+gem 'appraisal', '~> 2.4.0'
 gem 'kaminari', '~> 1.2.1'
 gem 'pry-byebug', '~> 3.9.0'
 gem 'puma', '~> 5.2.1'

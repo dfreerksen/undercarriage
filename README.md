@@ -11,7 +11,7 @@ Undercarriage is a set of concerns to add to your application to trim some of th
 ## Requirements
 
 * Ruby >= 2.5
-* Rails >= 6.0.3
+* Rails >= 5.2
 
 ## Installation
 
@@ -40,8 +40,24 @@ TODO
 Run tests with one of the following
 
 ```
-$ bin/test
+$ bundle exec rspec
 $ bundle exec rspec spec
+```
+
+### Appraisal
+
+Undercarriage uses [Appraisal](https://github.com/thoughtbot/appraisal) to ensure various dependency versions work as expected
+
+When dependencies change, run
+
+```
+$ bundle exec appraisal install
+```
+
+To run tests with Appraisal, run
+
+```
+$ bundle exec appraisal rspec
 ```
 
 ## Code Analysis

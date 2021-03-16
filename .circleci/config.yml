@@ -63,8 +63,11 @@ jobs:
           name: Install Ruby Dependencies
           command: bundle install --jobs=4 --retry=3
       - run:
+          name: Install Appraisal Dependencies
+          command: bundle exec appraisal install
+      - run:
           name: Run Rspec tests
-          command: bundle exec rspec spec
+          command: bundle exec appraisal rspec
 workflows:
   version: 2
   integration:
