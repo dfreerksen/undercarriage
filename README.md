@@ -11,7 +11,7 @@ Undercarriage is a set of concerns to add to your application to trim some of th
 ## Requirements
 
 * Ruby >= 2.5
-* Rails >= 5.2
+* Rails >= 6.0
 
 ## Installation
 
