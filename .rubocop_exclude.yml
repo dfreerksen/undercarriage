@@ -1,3 +1,7 @@
+Bundler/OrderedGems:
+  Exclude:
+    - 'gemfiles/*.gemfile'
+
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
@@ -5,4 +9,9 @@ Metrics/BlockLength:
 Style/FrozenStringLiteralComment:
   Exclude:
     - 'bin/**/*'
+    - 'gemfiles/*.gemfile'
     - 'spec/dummy/bin/**/*'
+
+Style/StringLiterals:
+  Exclude:
+    - 'gemfiles/*.gemfile'
