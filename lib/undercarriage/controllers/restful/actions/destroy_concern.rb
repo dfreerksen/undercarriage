@@ -41,9 +41,14 @@ module Undercarriage
           def destroy
             @destroy_resource.destroy
 
-            flash[flash_status_type] = flash_destroyed_message
+            respond_to do |format|
+              format.html do
+                flash[flash_status_type] = flash_destroyed_message
 
-            redirect_to location_after_destroy
+                redirect_to location_after_destroy
+              end
+              format.json { head :no_content }
+            end
           end
 
           protected

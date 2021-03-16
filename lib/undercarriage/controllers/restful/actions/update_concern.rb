@@ -41,16 +41,22 @@ module Undercarriage
           def update
             nested_resource_pre_build
 
-            if @update_resource.update(update_resource_params)
-              after_update_action
+            respond_to do |format|
+              if @update_resource.update(update_resource_params)
+                after_update_action
 
-              flash[flash_status_type] = flash_updated_message
+                format.html do
+                  flash[flash_status_type] = flash_updated_message
 
-              redirect_to location_after_update
-            else
-              nested_resource_build
+                  redirect_to location_after_update
+                end
+                format.json { render :show, status: :ok, location: location_after_update }
+              else
+                nested_resource_build
 
-              render :edit, status: :unprocessable_entity
+                format.html { render :edit }
+                format.json { render json: @post.errors, status: :unprocessable_entity }
+              end
             end
           end
 

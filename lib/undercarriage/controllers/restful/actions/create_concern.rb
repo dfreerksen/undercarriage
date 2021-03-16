@@ -41,16 +41,22 @@ module Undercarriage
           def create
             nested_resource_pre_build
 
-            if @create_resource.save
-              after_create_action
+            respond_to do |format|
+              if @create_resource.save
+                after_create_action
 
-              flash[flash_status_type] = flash_created_message
+                format.html do
+                  flash[flash_status_type] = flash_created_message
 
-              redirect_to location_after_create
-            else
-              nested_resource_build
+                  redirect_to location_after_create
+                end
+                format.json { render :show, status: :created, location: location_after_create }
+              else
+                nested_resource_build
 
-              render :new, status: :unprocessable_entity
+                format.html { render :new, status: :unprocessable_entity }
+                format.json { render json: @create_resource.errors, status: :unprocessable_entity }
+              end
             end
           end
 
