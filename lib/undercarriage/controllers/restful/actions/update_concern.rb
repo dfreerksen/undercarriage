@@ -55,7 +55,7 @@ module Undercarriage
                 nested_resource_build
 
                 format.html { render :edit }
-                format.json { render json: @post.errors, status: :unprocessable_entity }
+                format.json { render json: @update_resource.errors, status: :unprocessable_entity }
               end
             end
           end
