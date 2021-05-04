@@ -28,11 +28,12 @@ module Undercarriage
         end
 
         ##
-        # Singular human name
+        # Titleized controller name
         #
-        def controller_name_singular_human
-          controller_name_singular.humanize
+        def controller_name_singular_title
+          controller_name_singular.titleize
         end
+        alias controller_name_singular_human controller_name_singular_title
 
         ##
         # Model name

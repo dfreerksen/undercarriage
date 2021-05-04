@@ -74,10 +74,10 @@ module Undercarriage
         private
 
         def flash_message_builder(action, status, past_tense)
-          defaults = flash_message_defaults(controller_name_singular_human, action, status, past_tense)
+          defaults = flash_message_defaults(controller_name_singular_title, action, status, past_tense)
           message = defaults.shift
 
-          I18n.t(message, resource_name: controller_name_singular_human,
+          I18n.t(message, resource_name: controller_name_singular_title,
                           downcase_resource_name: controller_name_singular,
                           default: defaults)
         end
