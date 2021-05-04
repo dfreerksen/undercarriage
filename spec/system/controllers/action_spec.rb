@@ -54,6 +54,10 @@ RSpec.describe 'Controller Undercarriage::Controllers::LocaleConcern', type: :sy
     it 'knows it is not a `update` action' do
       expect(page).to have_content('Update: false')
     end
+
+    it 'knows it is not a `destroy` action' do
+      expect(page).to have_content('Destroy: false')
+    end
   end
 
   describe 'with `#show` action' do
@@ -105,6 +109,10 @@ RSpec.describe 'Controller Undercarriage::Controllers::LocaleConcern', type: :sy
 
     it 'knows it is not a `update` action' do
       expect(page).to have_content('Update: false')
+    end
+
+    it 'knows it is not a `destroy` action' do
+      expect(page).to have_content('Destroy: false')
     end
   end
 
@@ -158,6 +166,10 @@ RSpec.describe 'Controller Undercarriage::Controllers::LocaleConcern', type: :sy
     it 'knows it is not a `update` action' do
       expect(page).to have_content('Update: false')
     end
+
+    it 'knows it is not a `destroy` action' do
+      expect(page).to have_content('Destroy: false')
+    end
   end
 
   describe 'with `#edit` action' do
@@ -209,6 +221,10 @@ RSpec.describe 'Controller Undercarriage::Controllers::LocaleConcern', type: :sy
 
     it 'knows it is not a `update` action' do
       expect(page).to have_content('Update: false')
+    end
+
+    it 'knows it is not a `destroy` action' do
+      expect(page).to have_content('Destroy: false')
     end
   end
 end

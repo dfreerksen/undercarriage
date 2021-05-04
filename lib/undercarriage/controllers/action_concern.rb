@@ -21,6 +21,7 @@ module Undercarriage
                       :collection_action?,
                       :create_action?,
                       :create_actions?,
+                      :destroy_action?,
                       :edit_action?,
                       :edit_actions?,
                       :index_action?,
@@ -137,6 +138,21 @@ module Undercarriage
       #
       def update_action?
         action?('update')
+      end
+
+      ##
+      # Check if destroy
+      #
+      # Check if action is the destroy action type. The check will pass if it is a `destroy` action
+      #
+      # Usage
+      #   destroy_action? # true
+      #   destroy_action? # false
+      #
+      # @return [Boolean] if action is action type
+      #
+      def destroy_action?
+        action?('destroy')
       end
 
       ##
