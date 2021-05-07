@@ -69,7 +69,7 @@ module Undercarriage
         end
 
         def resources_path(options = {})
-          location_path = [resource_namespace, controller_name].compact
+          location_path = [resource_namespace, controller_name].compact.map(&:to_sym)
 
           polymorphic_path(location_path, options)
         end
