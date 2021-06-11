@@ -4,5 +4,5 @@ module Undercarriage
   ##
   # Undercarriage version
   #
-  VERSION = '0.5.5'
+  VERSION = '0.5.6'
 end
