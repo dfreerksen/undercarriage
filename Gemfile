@@ -9,7 +9,7 @@ gemspec
 gem 'appraisal', '~> 2.4.0'
 gem 'kaminari', '~> 1.2.1'
 gem 'pry-byebug', '~> 3.9.0'
-gem 'puma', '~> 5.2.1'
+gem 'puma', '~> 5.3.1'
 gem 'sqlite3', '~> 1.4.2'
 gem 'yard', '~> 0.9.26'
 
