@@ -10,7 +10,7 @@ Undercarriage is a set of concerns to add to your application to trim some of th
 
 ## Requirements
 
-* Ruby >= 2.5
+* Ruby >= 2.6
 * Rails >= 6.0
 
 ## Installation
@@ -58,6 +58,13 @@ To run tests with Appraisal, run
 
 ```
 $ bundle exec appraisal rspec
+```
+
+To run tests with a specific version of Appraisal, run
+
+```
+$ bundle exec appraisal rails-60 rspec
+$ bundle exec appraisal rails-61 rspec
 ```
 
 ## Code Analysis
