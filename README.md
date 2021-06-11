@@ -34,6 +34,7 @@ TODO
 ## TODO
 
 * [ ] Allow a way to set locale instead of relying on browser preferred language in `Undercarriage::Controllers::LocaleConcern`
+* [ ] Add support for Rails 5.2
 
 ## Testing
 
