@@ -10,7 +10,7 @@ Undercarriage is a set of concerns to add to your application to trim some of th
 
 ## Requirements
 
-* Ruby >= 2.5
+* Ruby >= 2.6
 * Rails >= 6.0
 
 ## Installation
