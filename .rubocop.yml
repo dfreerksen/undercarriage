@@ -15,6 +15,7 @@ AllCops:
   Exclude:
     - 'node_modules/**/*'
     - 'test/dummy/db/schema.rb'
+    - 'vendor/**/*'
 
 # https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Bundler/OrderedGems
 Bundler/OrderedGems:

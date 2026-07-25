@@ -41,6 +41,11 @@ jobs:
 
   appraisal:
     runs-on: ubuntu-latest
+    env:
+      # appraisal2 defaults to 2 parallel workers, but every appraisal gemfile
+      # shares the same BUNDLE_PATH (vendor/bundle) and test/dummy sqlite3 db,
+      # so concurrent installs/specs stall on Bundler's install-path lock.
+      APPRAISAL_JOBS: 1
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
