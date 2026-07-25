@@ -59,7 +59,16 @@ jobs:
       # gemfile it touches. Installing each gemfile directly, outside that
       # subprocess wrapping, avoids it; `appraisal rspec` (below) doesn't hit
       # the same path and runs fine through the normal wrapper.
+      #
+      # BUNDLE_PATH must be exported here explicitly: bundler-cache only
+      # writes it to .bundle/config, and Bundler doesn't inherit that file's
+      # settings for a Gemfile outside the config file's own directory (every
+      # appraisal gemfile lives under gemfiles/). Without it, each `bundle
+      # install` below silently installs into the system gem path instead of
+      # vendor/bundle, so `appraisal rspec` can't find what was "installed".
       - name: Install appraisal dependencies
+        env:
+          BUNDLE_PATH: ${{ github.workspace }}/vendor/bundle
         run: |
           for gemfile in gemfiles/*.gemfile; do
             bundle install --gemfile="$gemfile" --retry 3
