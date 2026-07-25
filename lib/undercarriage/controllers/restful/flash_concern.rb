@@ -27,7 +27,7 @@ module Undercarriage
       #           notice: "Your %{downcase_resource_name} was created."
       #         update:
       #           notice_html: "<strong>Huzzah!</strong> Your %{downcase_resource_name} was updated."
-      #           notice: "Huzzah! Your %{downcase_resource_name} was updated." # Not used since `notice_html` is defined
+      #           notice: "Huzzah! Your %{downcase_resource_name} was updated."
       #       things:
       #         destroy:
       #           notice: "Good riddance. That wasn't needed anyway."
