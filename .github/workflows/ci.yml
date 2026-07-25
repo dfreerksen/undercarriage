@@ -52,10 +52,13 @@ jobs:
         with:
           ruby-version: "3.4"
           bundler-cache: true
-      # bundler-cache leaves BUNDLE_PATH set to the relative "vendor/bundle" in
-      # .bundle/config. Bundler resolves a relative BUNDLE_PATH against the
-      # active Gemfile's directory, so appraisal's gemfiles (under gemfiles/)
-      # would install into gemfiles/vendor/bundle instead of the cached path.
-      - run: bundle config set --local path "${{ github.workspace }}/vendor/bundle"
+      # TEMPORARY: appraisal2's own "bundle check || bundle install" wrapper
+      # dies silently on this runner with no error text, so run the same
+      # install directly and verbosely to surface the real failure.
+      - name: Debug bundler environment
+        run: |
+          bundle env
+          echo "--- direct verbose install: rails_8_1 ---"
+          BUNDLE_GEMFILE=gemfiles/rails_8_1.gemfile bundle install --gemfile=gemfiles/rails_8_1.gemfile --verbose
       - run: bundle exec appraisal install
       - run: bundle exec appraisal rspec
