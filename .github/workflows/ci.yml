@@ -52,13 +52,16 @@ jobs:
         with:
           ruby-version: "3.4"
           bundler-cache: true
-      # appraisal2 runs each appraisal's "bundle check || bundle install" in a
-      # scrubbed subprocess env (see appraisal/command.rb#bundler_env). On a
-      # cold vendor/bundle cache, its own "is bundler available" probe reports
-      # success without actually registering the pinned Gemfile.lock version
-      # (4.0.15) as an installed gem in that subprocess env, so the first
-      # appraisal's install dies silently. Explicitly installing it once here,
-      # outside appraisal's subprocess wrapping, avoids that.
-      - run: gem install bundler -v "$(bundle -v | grep -oE '[0-9.]+$')" --no-document
-      - run: bundle exec appraisal install
+      # `bundle exec appraisal install` runs each gemfile's "bundle check ||
+      # bundle install" inside appraisal2's own scrubbed subprocess env (see
+      # appraisal/command.rb#bundler_env), which reliably dies silently on a
+      # cold cache on this runner (no error text, exit 1) for the first
+      # gemfile it touches. Installing each gemfile directly, outside that
+      # subprocess wrapping, avoids it; `appraisal rspec` (below) doesn't hit
+      # the same path and runs fine through the normal wrapper.
+      - name: Install appraisal dependencies
+        run: |
+          for gemfile in gemfiles/*.gemfile; do
+            bundle install --gemfile="$gemfile" --retry 3
+          done
       - run: bundle exec appraisal rspec
