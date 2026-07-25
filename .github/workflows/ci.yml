@@ -52,13 +52,13 @@ jobs:
         with:
           ruby-version: "3.4"
           bundler-cache: true
-      # TEMPORARY: appraisal2's own "bundle check || bundle install" wrapper
-      # dies silently on this runner with no error text, so run the same
-      # install directly and verbosely to surface the real failure.
-      - name: Debug bundler environment
-        run: |
-          bundle env
-          echo "--- direct verbose install: rails_8_1 ---"
-          BUNDLE_GEMFILE=gemfiles/rails_8_1.gemfile bundle install --gemfile=gemfiles/rails_8_1.gemfile --verbose
+      # appraisal2 runs each appraisal's "bundle check || bundle install" in a
+      # scrubbed subprocess env (see appraisal/command.rb#bundler_env). On a
+      # cold vendor/bundle cache, its own "is bundler available" probe reports
+      # success without actually registering the pinned Gemfile.lock version
+      # (4.0.15) as an installed gem in that subprocess env, so the first
+      # appraisal's install dies silently. Explicitly installing it once here,
+      # outside appraisal's subprocess wrapping, avoids that.
+      - run: gem install bundler -v "$(bundle -v | grep -oE '[0-9.]+$')" --no-document
       - run: bundle exec appraisal install
       - run: bundle exec appraisal rspec
