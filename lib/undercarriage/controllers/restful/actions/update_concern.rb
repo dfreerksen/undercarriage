@@ -10,22 +10,23 @@ module Undercarriage
         ##
         # Update restful action
         #
-        # Usage
+        # @example Controller
         #   class ExamplesController < ApplicationController
-        #     include Undercarriage::Controllers::RestfulConcern
+        #     include Undercarriage::Controllers::Restful::Actions::UpdateConcern
         #   end
-        #
         module UpdateConcern
           extend ActiveSupport::Concern
 
           included do
+            include Undercarriage::Controllers::Restful::Actions::BaseConcern
+
             before_action :update_resource, only: %i[update]
           end
 
           ##
           # Update action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -37,7 +38,6 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def update
             nested_resource_pre_build
 
@@ -54,8 +54,8 @@ module Undercarriage
               else
                 nested_resource_build
 
-                format.html { render :edit }
-                format.json { render json: @update_resource.errors, status: :unprocessable_entity }
+                format.html { render :edit, status: unprocessable_status }
+                format.json { render json: @update_resource.errors, status: unprocessable_status }
               end
             end
           end
@@ -65,7 +65,7 @@ module Undercarriage
           ##
           # Update restful action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -94,13 +94,18 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def update_resource_content
             resource_content
           end
 
           private
 
+          ##
+          # Update resource before_action callback
+          #
+          # Memoizes the resource to be updated into `@update_resource` ahead of the `update` action.
+          #
+          # @return [Object] the resource to update
           def update_resource
             @update_resource ||= update_resource_content
           end

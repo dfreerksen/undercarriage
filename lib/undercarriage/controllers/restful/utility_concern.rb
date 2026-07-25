@@ -10,11 +10,12 @@ module Undercarriage
       #
       # Utility helper methods
       #
-      # Usage
-      #   class ExamplesController < ApplicationController
-      #     include Undercarriage::Controllers::Restful::UtilityConcern
-      #   end
+      # UtilityConcern is not meant to be included alone
       #
+      # @example Controller
+      #   class ExamplesController < ApplicationController
+      #     include Undercarriage::Controllers::RestfulConcern
+      #   end
       module UtilityConcern
         extend ActiveSupport::Concern
 
@@ -23,6 +24,7 @@ module Undercarriage
         ##
         # Singular controller name
         #
+        # @return [String] singular controller name
         def controller_name_singular
           controller_name.to_s.singularize
         end
@@ -30,6 +32,7 @@ module Undercarriage
         ##
         # Titleized controller name
         #
+        # @return [String] titelized controller name
         def controller_name_singular_title
           controller_name_singular.titleize
         end
@@ -38,6 +41,7 @@ module Undercarriage
         ##
         # Model name
         #
+        # @return [String] model name
         def model_name
           controller_name_singular
         end
@@ -45,13 +49,23 @@ module Undercarriage
         ##
         # Model class
         #
+        # @return [Object] model class
         def model_class
           model_name.classify.constantize
         end
 
         ##
+        # Model scope
+        #
+        # @return [Symbol] model scope
+        def model_scope
+          model_name.to_sym
+        end
+
+        ##
         # Instances name
         #
+        # @return [String] instances name
         def instances_name
           controller_name.to_s
         end
@@ -59,15 +73,9 @@ module Undercarriage
         ##
         # Instance name
         #
+        # @return [String] instance name
         def instance_name
           model_name
-        end
-
-        ##
-        # Resource scope
-        #
-        def resource_scope
-          model_name.to_sym
         end
       end
     end

@@ -1,15 +1,19 @@
-# CircleCI
+# GitHub Actions
 
-[CircleCI](https://circleci.com/) is used for continuous integration.
+[GitHub Actions](https://github.com/features/actions) is used for continuous integration. The workflow is defined in
+[`.github/workflows/ci.yml`](../.github/workflows/ci.yml) and runs on every push to `master` and on pull requests.
 
-To run tests locally using [CircleCI Local CLI](https://circleci.com/docs/2.0/local-cli/), first install the library
+It has four jobs:
 
-```
-$ brew install circleci
-```
+- `rspec` — `bundle exec rspec spec`
+- `rubocop` — `bundle exec rubocop`
+- `yard-lint` — `bundle exec yard-lint`
+- `appraisal` — `bundle exec appraisal install` then `bundle exec appraisal rspec`, running the suite against every
+  Rails version defined in `Appraisals`
 
-Run the tests as CircleCI would run them
+To run a job locally, use the same commands as above (see the README for `bundle install` setup) or install
+[`act`](https://github.com/nektos/act) to run the workflow itself:
 
-```
-$ circleci local execute --job ruby-3.0
+```bash
+$ act -j rspec
 ```

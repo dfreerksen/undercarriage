@@ -10,22 +10,23 @@ module Undercarriage
         ##
         # Create restful action
         #
-        # Usage
+        # @example Controller
         #   class ExamplesController < ApplicationController
-        #     include Undercarriage::Controllers::RestfulConcern
+        #     include Undercarriage::Controllers::Restful::Actions::CreateConcern
         #   end
-        #
         module CreateConcern
           extend ActiveSupport::Concern
 
           included do
+            include Undercarriage::Controllers::Restful::Actions::BaseConcern
+
             before_action :create_resource, only: %i[create]
           end
 
           ##
           # Create action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -37,7 +38,6 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def create
             nested_resource_pre_build
 
@@ -54,8 +54,8 @@ module Undercarriage
               else
                 nested_resource_build
 
-                format.html { render :new, status: :unprocessable_entity }
-                format.json { render json: @create_resource.errors, status: :unprocessable_entity }
+                format.html { render :new, status: unprocessable_status }
+                format.json { render json: @create_resource.errors, status: unprocessable_status }
               end
             end
           end
@@ -65,7 +65,7 @@ module Undercarriage
           ##
           # Create restful action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -94,15 +94,20 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def create_resource_content
-            resource_query = model_class.new(create_resource_params)
+            resource_query = resource_scope.new(create_resource_params)
 
             instance_variable_set("@#{instance_name}", resource_query)
           end
 
           private
 
+          ##
+          # Create resource before_action callback
+          #
+          # Memoizes the built resource into `@create_resource` ahead of the `create` action.
+          #
+          # @return [Object] the built resource
           def create_resource
             @create_resource ||= resource_new_content
           end

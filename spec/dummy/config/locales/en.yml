@@ -1,7 +1,0 @@
-en:
-  hello: Hello
-  greetings:
-    show:
-      dir: Direction
-      greeting: Greeting
-      lang: Language

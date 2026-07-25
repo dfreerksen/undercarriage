@@ -8,11 +8,12 @@ module Undercarriage
       ##
       # Namespace
       #
-      # Usage
-      #   class ExamplesController < ApplicationController
-      #     include Undercarriage::Controllers::Restful::NamespaceConcern
-      #   end
+      # NamespaceConcern is not meant to be included alone
       #
+      # @example Controller
+      #   class ExamplesController < ApplicationController
+      #     include Undercarriage::Controllers::RestfulConcern
+      #   end
       module NamespaceConcern
         extend ActiveSupport::Concern
 
@@ -24,14 +25,13 @@ module Undercarriage
         # Best guess for namespace. Take `controller_path` and if there is more than one segment, assume the first is
         # the namespace. When there is one segment, the namespace is `nil`
         #
-        # Example
+        # @example Controller
         #   # Override method that builds namespace
         #   def resource_namespace
         #     :admin
         #   end
-        #
         def resource_namespace
-          segments = controller_path.split('/')
+          segments = controller_path.split("/")
 
           segments.length > 1 ? segments.first : nil
         end

@@ -6,21 +6,14 @@ module Undercarriage
     ##
     # Restful actions
     #
-    # Usage
+    # @example Controller
     #   class ExamplesController < ApplicationController
     #     include Undercarriage::Controllers::RestfulConcern
     #   end
-    #
     module RestfulConcern
       extend ActiveSupport::Concern
 
       included do
-        include Undercarriage::Controllers::Restful::FlashConcern
-        include Undercarriage::Controllers::Restful::LocationAfterConcern
-        include Undercarriage::Controllers::Restful::NamespaceConcern
-        include Undercarriage::Controllers::Restful::PermittedAttributesConcern
-        include Undercarriage::Controllers::Restful::UtilityConcern
-        include Undercarriage::Controllers::Restful::Actions::BaseConcern
         include Undercarriage::Controllers::Restful::Actions::IndexConcern
         include Undercarriage::Controllers::Restful::Actions::ShowConcern
         include Undercarriage::Controllers::Restful::Actions::NewConcern

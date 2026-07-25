@@ -10,22 +10,23 @@ module Undercarriage
         ##
         # Destroy restful action
         #
-        # Usage
+        # @example Controller
         #   class ExamplesController < ApplicationController
-        #     include Undercarriage::Controllers::RestfulConcern
+        #     include Undercarriage::Controllers::Restful::Actions::DestroyConcern
         #   end
-        #
         module DestroyConcern
           extend ActiveSupport::Concern
 
           included do
+            include Undercarriage::Controllers::Restful::Actions::BaseConcern
+
             before_action :destroy_resource, only: %i[destroy]
           end
 
           ##
           # Destroy action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -37,7 +38,6 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def destroy
             @destroy_resource.destroy
 
@@ -56,7 +56,7 @@ module Undercarriage
           ##
           # Destroy restful action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -85,13 +85,18 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def destroy_resource_content
             resource_content
           end
 
           private
 
+          ##
+          # Destroy resource before_action callback
+          #
+          # Memoizes the resource to be destroyed into `@destroy_resource` ahead of the `destroy` action.
+          #
+          # @return [Object] the resource to destroy
           def destroy_resource
             @destroy_resource ||= destroy_resource_content
           end

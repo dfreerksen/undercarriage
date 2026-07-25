@@ -1,0 +1,5 @@
+New: <%= new_action? %>
+Create/New: <%= create_actions? %>
+<% if @post.errors.any? %>
+Errors: <%= @post.errors.full_messages.join(', ') %>
+<% end %>

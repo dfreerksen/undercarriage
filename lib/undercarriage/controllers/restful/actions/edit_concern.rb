@@ -10,22 +10,23 @@ module Undercarriage
         ##
         # Edit restful action
         #
-        # Usage
+        # @example Controller
         #   class ExamplesController < ApplicationController
-        #     include Undercarriage::Controllers::RestfulConcern
+        #     include Undercarriage::Controllers::Restful::Actions::EditConcern
         #   end
-        #
         module EditConcern
           extend ActiveSupport::Concern
 
           included do
+            include Undercarriage::Controllers::Restful::Actions::BaseConcern
+
             before_action :edit_resource, only: %i[edit]
           end
 
           ##
           # Edit action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -37,7 +38,6 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def edit
             nested_resource_pre_build
             nested_resource_build
@@ -48,7 +48,7 @@ module Undercarriage
           ##
           # Edit restful action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -77,13 +77,18 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def edit_resource_content
             resource_content
           end
 
           private
 
+          ##
+          # Edit resource before_action callback
+          #
+          # Memoizes the resource to be edited into `@edit_resource` ahead of the `edit` action.
+          #
+          # @return [Object] the resource to edit
           def edit_resource
             @edit_resource ||= edit_resource_content
           end

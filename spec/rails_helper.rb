@@ -1,37 +1,31 @@
 # frozen_string_literal: true
 
-require 'simplecov'
-
-# SimpleCov.start :rails
+require "simplecov"
 
 SimpleCov.start do
-  add_group 'Controllers', 'lib/undercarriage/controllers'
-  add_group 'Models', 'lib/undercarriage/models'
-  add_group 'Libraries', %r{lib/(\w*).rb}
-  add_filter '/spec/'
+  group "Controllers", "lib/undercarriage/controllers"
+  group "Models", "lib/undercarriage/models"
+  group "Libraries", %r{lib/(\w*).rb}
+  skip "/spec/"
+  skip "/test/"
 end
 
-ENV['RAILS_ENV'] ||= 'test'
+ENV["RAILS_ENV"] ||= "test"
 
-require File.expand_path('dummy/config/environment', __dir__)
+require File.expand_path("../test/dummy/config/environment", __dir__)
 
-abort('The Rails environment is running in production mode!') if Rails.env.production?
+abort("The Rails environment is running in production mode!") if Rails.env.production?
 
-require 'spec_helper'
+require "spec_helper"
+require "rspec/rails"
 
-require 'pry-byebug'
-require 'rspec/rails'
+Dir[File.expand_path("support/**/*.rb", __dir__)].each { |f| require f }
 
-Dir[Rails.root.join('../support/**/*.rb')].sort.each { |f| require f }
-
-begin
-  ActiveRecord::Migration.maintain_test_schema!
-rescue ActiveRecord::PendingMigrationError => e
-  puts e.to_s.strip
-  exit 1
-end
+ActiveRecord::Schema.verbose = false
+load Rails.root.join("db/schema.rb")
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
+  config.use_transactional_fixtures = true
 end

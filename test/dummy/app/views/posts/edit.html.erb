@@ -1,0 +1,6 @@
+Edit: <%= edit_action? %>
+Update/Edit: <%= update_actions? %>
+<% if @post.errors.any? %>
+Errors: <%= @post.errors.full_messages.join(', ') %>
+<% end %>
+Post: <%= @post.id %> <%= @post.title %>

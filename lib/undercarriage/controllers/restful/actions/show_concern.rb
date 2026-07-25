@@ -10,22 +10,23 @@ module Undercarriage
         ##
         # Show restful action
         #
-        # Usage
+        # @example Controller
         #   class ExamplesController < ApplicationController
-        #     include Undercarriage::Controllers::RestfulConcern
+        #     include Undercarriage::Controllers::Restful::Actions::ShowConcern
         #   end
-        #
         module ShowConcern
           extend ActiveSupport::Concern
 
           included do
+            include Undercarriage::Controllers::Restful::Actions::BaseConcern
+
             before_action :show_resource, only: %i[show]
           end
 
           ##
           # Show action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -37,7 +38,6 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def show; end
 
           protected
@@ -45,7 +45,7 @@ module Undercarriage
           ##
           # Show restful action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -74,13 +74,18 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def show_resource_content
             resource_content
           end
 
           private
 
+          ##
+          # Show resource before_action callback
+          #
+          # Memoizes the resource to be shown into `@show_resource` ahead of the `show` action.
+          #
+          # @return [Object] the resource to show
           def show_resource
             @show_resource ||= show_resource_content
           end

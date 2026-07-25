@@ -1,0 +1,6 @@
+en:
+  flash:
+    admin:
+      posts:
+        create:
+          success: "Admin post created!"

@@ -10,22 +10,23 @@ module Undercarriage
         ##
         # New restful action
         #
-        # Usage
+        # @example Controller
         #   class ExamplesController < ApplicationController
-        #     include Undercarriage::Controllers::RestfulConcern
+        #     include Undercarriage::Controllers::Restful::Actions::NewConcern
         #   end
-        #
         module NewConcern
           extend ActiveSupport::Concern
 
           included do
+            include Undercarriage::Controllers::Restful::Actions::BaseConcern
+
             before_action :new_resource, only: %i[new]
           end
 
           ##
           # New action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -37,7 +38,6 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def new
             nested_resource_pre_build
             nested_resource_build
@@ -48,7 +48,7 @@ module Undercarriage
           ##
           # New restful action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -77,15 +77,20 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def new_resource_content
-            resource_query = model_class.new
+            resource_query = resource_scope.new
 
             instance_variable_set("@#{instance_name}", resource_query)
           end
 
           private
 
+          ##
+          # New resource before_action callback
+          #
+          # Memoizes the built resource into `@new_resource` ahead of the `new` action.
+          #
+          # @return [Object] the built resource
           def new_resource
             @new_resource ||= resource_new_content
           end

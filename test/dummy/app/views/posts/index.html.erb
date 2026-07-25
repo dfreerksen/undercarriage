@@ -1,0 +1,5 @@
+Index: <%= index_action? %>
+Collection: <%= collection_action? %>
+<% @posts.each do |post| %>
+Post: <%= post.id %> <%= post.title %> published:<%= post.published? %>
+<% end %>

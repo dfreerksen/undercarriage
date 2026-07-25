@@ -3,6 +3,5 @@
 module Undercarriage
   ##
   # Undercarriage version
-  #
-  VERSION = '0.5.5'
+  VERSION = "1.0.0"
 end

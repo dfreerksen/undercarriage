@@ -2,7 +2,7 @@
 
 1. Clean up generated files
 
-    ```
+    ```bash
     $ bundle exec rake clean
     ```
 
@@ -22,7 +22,7 @@
 
 3. Build the gem
 
-    ```
+    ```bash
     $ bundle exec rake build
     ```
 
@@ -32,7 +32,7 @@
 
 5. Create the gem, tag it in Github and release to Rubygems
 
-    ```
+    ```bash
     $ bundle exec rake release
     ```
 

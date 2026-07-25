@@ -13,11 +13,10 @@ module Undercarriage
     # When preferred language cannot be identified or no translation is available, fall back to `I18n.default_locale`
     # (typically `en`).
     #
-    # Usage
+    # @example Controller
     #   class ExamplesController < ApplicationController
     #     include Undercarriage::Controllers::LocaleConcern
     #   end
-    #
     module LocaleConcern
       extend ActiveSupport::Concern
 
@@ -32,10 +31,11 @@ module Undercarriage
       #
       # Helper for Views to return the identified language.
       #
-      # Usage
-      #   <html lang="<%= html_lang %>"> #=> '<html lang="de">'
-      #   <html lang="<%= html_lang %>"> #=> '<html lang="de-at">'
+      # @return [String] locale for html tag lang attribute
       #
+      # @example View
+      #   # <html lang="<%= html_lang %>"> #=> '<html lang="de">'
+      #   # <html lang="<%= html_lang %>"> #=> '<html lang="de-at">'
       def html_lang
         I18n.locale.to_s
       end
@@ -54,14 +54,15 @@ module Undercarriage
       # * Persian/Farsi
       # * Urdu
       #
-      # Usage
-      #   <html dir="<%= html_dir %>"> #=> <html dir="ltr">
-      #   <html dir="<%= html_dir %>"> #=> <html dir="rtl">
+      # @return [String] direction for html tag dir attribute
       #
+      # @example View
+      #   # <html dir="<%= html_dir %>"> #=> <html dir="ltr">
+      #   # <html dir="<%= html_dir %>"> #=> <html dir="rtl">
       def html_dir
         rtl_languages = %w[am ar az dv fa he ur]
 
-        html_lang.start_with?(*rtl_languages) ? 'rtl' : 'ltr'
+        html_lang.start_with?(*rtl_languages) ? "rtl" : "ltr"
       end
 
       protected
@@ -71,12 +72,20 @@ module Undercarriage
       #
       # Set I18n locale for the request
       #
+      # @return [String] locale
       def identify_locale(&action)
         I18n.with_locale(first_available_locale, &action)
       end
 
       private
 
+      ##
+      # First available locale
+      #
+      # Intersects the request's accepted languages (falling back to `I18n.default_locale`) against
+      # `I18n.available_locales`, preferring the request's order.
+      #
+      # @return [String] locale
       def first_available_locale
         preferred_locales = (accepted_languages_header << I18n.default_locale.to_s).uniq
         available_locales = I18n.available_locales.map(&:to_s)
@@ -84,11 +93,18 @@ module Undercarriage
         (preferred_locales & available_locales).first
       end
 
+      ##
+      # Accepted languages header
+      #
+      # Parses the `HTTP_ACCEPT_LANGUAGE` request header into an ordered list of language tags, stripping any
+      # `;q=` quality values.
+      #
+      # @return [Array<String>] accepted language tags
       def accepted_languages_header
-        accepted_languages = request.env['HTTP_ACCEPT_LANGUAGE'] || ''
+        accepted_languages = request.env["HTTP_ACCEPT_LANGUAGE"] || ""
 
-        accepted_languages.gsub(/\s+/, '').split(',').map do |lang|
-          lang.split(';q=').first
+        accepted_languages.gsub(/\s+/, "").split(",").map do |lang|
+          lang.split(";q=").first
         end
       end
     end

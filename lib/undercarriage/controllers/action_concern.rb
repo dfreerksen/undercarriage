@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# :nodoc:
 module Undercarriage
   # :nodoc:
   module Controllers
@@ -8,11 +9,10 @@ module Undercarriage
     #
     # Helpers for the controller or view to help identify the action
     #
-    # Usage
+    # @example Controller
     #   class ExamplesController < ApplicationController
     #     include Undercarriage::Controllers::ActionConcern
     #   end
-    #
     module ActionConcern
       extend ActiveSupport::Concern
 
@@ -38,14 +38,13 @@ module Undercarriage
       #
       # Check if action is a certain action type
       #
-      # Usage
-      #   action?(:show) # true
-      #   action?('show') # true
-      #   action?(:index) # false
-      #
       # @param action_method [String, Symbol] the action to test
       # @return [Boolean] if action matches
       #
+      # @example View
+      #   action?(:show) # true
+      #   action?("show") # true
+      #   action?(:index) # false
       def action?(action_method)
         action == action_method.to_sym
       end
@@ -55,14 +54,13 @@ module Undercarriage
       #
       # Check if action is the index action type. The check will pass if it is an `index` action
       #
-      # Usage
-      #   index_action? # true
-      #   index_action? # false
-      #
       # @return [Boolean] if action is action type
       #
+      # @example View
+      #   index_action? # true
+      #   index_action? # false
       def index_action?
-        action?('index')
+        action?("index")
       end
 
       ##
@@ -70,14 +68,13 @@ module Undercarriage
       #
       # Check if action is the show action type. The check will pass if it is a `show` action
       #
-      # Usage
-      #   show_action? # true
-      #   show_action? # false
-      #
       # @return [Boolean] if action is action type
       #
+      # @example View
+      #   show_action? # true
+      #   show_action? # false
       def show_action?
-        action?('show')
+        action?("show")
       end
 
       ##
@@ -85,14 +82,13 @@ module Undercarriage
       #
       # Check if action is the new action type. The check will pass if it is a `new` action
       #
-      # Usage
-      #   new_action? # true
-      #   new_action? # false
-      #
       # @return [Boolean] if action is action type
       #
+      # @example View
+      #   new_action? # true
+      #   new_action? # false
       def new_action?
-        action?('new')
+        action?("new")
       end
 
       ##
@@ -100,14 +96,13 @@ module Undercarriage
       #
       # Check if action is the create action type. The check will pass if it is a `create` action
       #
-      # Usage
-      #   create_action? # true
-      #   create_action? # false
-      #
       # @return [Boolean] if action is action type
       #
+      # @example View
+      #   create_action? # true
+      #   create_action? # false
       def create_action?
-        action?('create')
+        action?("create")
       end
 
       ##
@@ -115,14 +110,13 @@ module Undercarriage
       #
       # Check if action is the edit action type. The check will pass if it is an `edit` action
       #
-      # Usage
-      #   edit_action? # true
-      #   edit_action? # false
-      #
       # @return [Boolean] if action is action type
       #
+      # @example View
+      #   edit_action? # true
+      #   edit_action? # false
       def edit_action?
-        action?('edit')
+        action?("edit")
       end
 
       ##
@@ -130,14 +124,13 @@ module Undercarriage
       #
       # Check if action is the update action type. The check will pass if it is an `update` action
       #
-      # Usage
-      #   update_action? # true
-      #   update_action? # false
-      #
       # @return [Boolean] if action is action type
       #
+      # @example View
+      #   update_action? # true
+      #   update_action? # false
       def update_action?
-        action?('update')
+        action?("update")
       end
 
       ##
@@ -145,14 +138,13 @@ module Undercarriage
       #
       # Check if action is the destroy action type. The check will pass if it is a `destroy` action
       #
-      # Usage
-      #   destroy_action? # true
-      #   destroy_action? # false
-      #
       # @return [Boolean] if action is action type
       #
+      # @example View
+      #   destroy_action? # true
+      #   destroy_action? # false
       def destroy_action?
-        action?('destroy')
+        action?("destroy")
       end
 
       ##
@@ -160,12 +152,11 @@ module Undercarriage
       #
       # Check if action is a collection action type. An action is a collection type if it is the `index` action
       #
-      # Usage
-      #   collection_action? # true
-      #   collection_action? # false
-      #
       # @return [Boolean] if action is collection type
       #
+      # @example View
+      #   collection_action? # true
+      #   collection_action? # false
       def collection_action?
         collection_actions.include?(action)
       end
@@ -175,15 +166,14 @@ module Undercarriage
       #
       # Check if action is a create or new action type. The check will pass if it is a `create` or `new` action
       #
-      # Usage
-      #   create_actions? # true
-      #   create_actions? # false
-      #
-      #   new_actions? # true
-      #   new_actions? # false
-      #
       # @return [Boolean] if action is actions type
       #
+      # @example View create
+      #   create_actions? # true
+      #   create_actions? # false
+      # @example View new
+      #   new_actions? # true
+      #   new_actions? # false
       def create_actions?
         create_actions.include?(action)
       end
@@ -195,12 +185,11 @@ module Undercarriage
       # Check if action is a member action type. An action is a member type if it is the `edit`, `show`, or `update`
       # action
       #
-      # Usage
-      #   member_action? # true
-      #   member_action? # false
-      #
       # @return [Boolean] if action is member type
       #
+      # @example View
+      #   member_action? # true
+      #   member_action? # false
       def member_action?
         member_actions.include?(action)
       end
@@ -210,15 +199,14 @@ module Undercarriage
       #
       # Check if action is an edit or update action type. The check will pass if it is an `edit` or `update` action
       #
-      # Usage
-      #   update_actions? # true
-      #   update_actions? # false
-      #
-      #   edit_actions? # true
-      #   edit_actions? # false
-      #
       # @return [Boolean] if action is actions type
       #
+      # @example View update
+      #   update_actions? # true
+      #   update_actions? # false
+      # @example View edit
+      #   edit_actions? # true
+      #   edit_actions? # false
       def update_actions?
         update_actions.include?(action)
       end
@@ -231,6 +219,7 @@ module Undercarriage
       #
       # Take `action_name` (string) and turn it into a symbol
       #
+      # @return [Symbol] action_name as a symbol
       def action
         action_name.to_sym
       end
@@ -238,6 +227,7 @@ module Undercarriage
       ##
       # Collection actions
       #
+      # @return [Array] collection actions
       def collection_actions
         %i[index]
       end
@@ -245,6 +235,7 @@ module Undercarriage
       ##
       # Member actions
       #
+      # @return [Array] member actions
       def member_actions
         %i[edit show update]
       end
@@ -252,6 +243,7 @@ module Undercarriage
       ##
       # Create actions
       #
+      # @return [Array] create actions
       def create_actions
         %i[create new]
       end
@@ -259,6 +251,7 @@ module Undercarriage
       ##
       # Update actions
       #
+      # @return [Array] update actions
       def update_actions
         %i[edit update]
       end

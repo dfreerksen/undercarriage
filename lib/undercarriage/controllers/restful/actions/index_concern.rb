@@ -10,22 +10,23 @@ module Undercarriage
         ##
         # Index restful action
         #
-        # Usage
+        # @example Controller
         #   class ExamplesController < ApplicationController
-        #     include Undercarriage::Controllers::RestfulConcern
+        #     include Undercarriage::Controllers::Restful::Actions::IndexConcern
         #   end
-        #
         module IndexConcern
           extend ActiveSupport::Concern
 
           included do
+            include Undercarriage::Controllers::Restful::Actions::BaseConcern
+
             before_action :index_resources, only: %i[index]
           end
 
           ##
           # Index action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -37,7 +38,6 @@ module Undercarriage
           #     #   ...
           #     # end
           #   end
-          #
           def index; end
 
           protected
@@ -45,7 +45,7 @@ module Undercarriage
           ##
           # Index restful action
           #
-          # Usage
+          # @example Controller
           #   class ExamplesController < ApplicationController
           #     include Undercarriage::Controllers::RestfulConcern
           #
@@ -66,15 +66,20 @@ module Undercarriage
           #     #   authorize @examples
           #     # end
           #   end
-          #
           def resources_content
-            resources_query = model_class.all
+            resources_query = resource_scope.all
 
             instance_variable_set("@#{instances_name}", resources_query)
           end
 
           private
 
+          ##
+          # Index resources before_action callback
+          #
+          # Memoizes the resource collection into `@index_resources` ahead of the `index` action.
+          #
+          # @return [Object] the resource collection
           def index_resources
             @index_resources ||= resources_content
           end
