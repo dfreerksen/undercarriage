@@ -52,5 +52,10 @@ jobs:
         with:
           ruby-version: "3.4"
           bundler-cache: true
+      # bundler-cache leaves BUNDLE_PATH set to the relative "vendor/bundle" in
+      # .bundle/config. Bundler resolves a relative BUNDLE_PATH against the
+      # active Gemfile's directory, so appraisal's gemfiles (under gemfiles/)
+      # would install into gemfiles/vendor/bundle instead of the cached path.
+      - run: bundle config set --local path "${{ github.workspace }}/vendor/bundle"
       - run: bundle exec appraisal install
       - run: bundle exec appraisal rspec
