@@ -1,12 +1,10 @@
 # Undercarriage
 
-**\*Undercarriage is currently under development. It is not ready for production use.\***
-
 Undercarriage is a set of concerns to add to your application to trim some of the fat from controllers and models.
 
 ## Requirements
 
-* Ruby >= 3.3.0
+* Ruby >= 3.0
 * Rails >= 6.0
 
 ## Installation
@@ -25,7 +23,37 @@ $ bundle install
 
 ## Usage
 
-TODO
+Include `Undercarriage::Controllers::RestfulConcern` in a controller to get full RESTful `index`/`show`/`new`/`create`/`edit`/`update`/`destroy` actions, driven off the controller's own name/path:
+
+```ruby
+class PostsController < ApplicationController
+  include Undercarriage::Controllers::RestfulConcern
+
+  private
+
+  def permitted_attributes
+    [:title, :body]
+  end
+end
+```
+
+This infers `Post` as the model, sets `@posts`/`@post` as appropriate, and wires up flash messages, strong params, and redirects with no further code. Override the `*_content` hooks (e.g. `resource_content`, `create_resource_content`) or `after_create_action`/`after_update_action` to customize a single action without redefining it — see the YARD docs on each `Undercarriage::Controllers::Restful::*` concern for the full hook list.
+
+The standalone concerns can be included individually where you don't want the full RESTful stack:
+
+```ruby
+class ExamplesController < ApplicationController
+  include Undercarriage::Controllers::ActionConcern  # action?/index_action?/etc. view helpers
+  include Undercarriage::Controllers::KaminariConcern # page_num/per_page params for Kaminari
+  include Undercarriage::Controllers::LocaleConcern   # I18n.locale from HTTP_ACCEPT_LANGUAGE
+end
+
+class Example < ApplicationRecord
+  include Undercarriage::Models::PublishedConcern # published/unpublished scopes
+end
+```
+
+See the YARD documentation linked below for every concern's options and examples.
 
 ## Testing
 
