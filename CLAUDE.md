@@ -13,7 +13,7 @@ $ bundle install                  # install dependencies
 $ bundle exec rspec               # run the full test suite
 $ bundle exec rspec spec/requests/posts_spec.rb   # run a single spec file
 $ bundle exec rspec spec/requests/posts_spec.rb:10   # run a single example by line
-$ bundle exec rubocop             # lint (uses .rubocop_enabled/.rubocop_exclude/.rubocop_disabled/.rubocop_todo.yml)
+$ bundle exec rubocop             # lint (uses .rubocop.yml)
 $ bundle exec yard                # build documentation into doc/
 $ bundle exec yard stats --list-undoc   # list undocumented public API
 $ bundle exec yard-lint            # lint YARD doc comments (uses .yard-lint.yml, strict mode)
