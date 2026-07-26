@@ -43,6 +43,14 @@ module Undercarriage
           protected
 
           ##
+          # Index resource content
+          #
+          # @return [Object] resource collection scope
+          def index_content
+            resource_scope.all
+          end
+
+          ##
           # Index restful action
           #
           # @example Controller
@@ -65,9 +73,17 @@ module Undercarriage
           #     #
           #     #   authorize @examples
           #     # end
+          #
+          #     ##
+          #     # To change the underlying query without touching instance variable assignment, override
+          #     # `index_content` instead
+          #     #
+          #     # def index_content
+          #     #   ...
+          #     # end
           #   end
           def resources_content
-            resources_query = resource_scope.all
+            resources_query = index_content
 
             instance_variable_set("@#{instances_name}", resources_query)
           end

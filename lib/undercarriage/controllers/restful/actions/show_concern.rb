@@ -73,9 +73,17 @@ module Undercarriage
           #     # def resource_content
           #     #   ...
           #     # end
+          #
+          #     ##
+          #     # To change the query for `show` only, override `show_content` instead. The `edit`, `update` and
+          #     # `destroy` actions are unaffected
+          #     #
+          #     # def show_content
+          #     #   ...
+          #     # end
           #   end
           def show_resource_content
-            resource_content
+            instance_variable_set("@#{instance_name}", show_content)
           end
 
           private

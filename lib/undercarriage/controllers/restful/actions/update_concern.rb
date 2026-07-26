@@ -93,9 +93,17 @@ module Undercarriage
           #     # def resource_content
           #     #   ...
           #     # end
+          #
+          #     ##
+          #     # To change the query for `update` only, override `update_content` instead. The `show`, `edit` and
+          #     # `destroy` actions are unaffected
+          #     #
+          #     # def update_content
+          #     #   ...
+          #     # end
           #   end
           def update_resource_content
-            resource_content
+            instance_variable_set("@#{instance_name}", update_content)
           end
 
           private

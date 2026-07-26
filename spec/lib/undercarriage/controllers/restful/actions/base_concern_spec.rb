@@ -5,8 +5,9 @@ require "rails_helper"
 # spec/requests/posts_spec.rb (and friends) cover the CRUD behavior every action concern builds on
 # top of BaseConcern. spec/requests/hooks_spec.rb covers the nested_resource_pre_build/
 # nested_resource_build/after_create_action/after_update_action timing contract, which needs a real
-# controller to observe. This tests BaseConcern's own standalone logic in isolation: the
-# resource_new_content dispatch, resource_content's lookup, the no-op hook defaults, and
+# controller to observe. This tests BaseConcern's own standalone logic in isolation:
+# resource_content's lookup, the per-action *_content hooks that delegate to it (and that overriding
+# resource_content in the includer is honored by all four), the no-op hook defaults, and
 # unprocessable_status's Rails-version branching.
 RSpec.describe Undercarriage::Controllers::Restful::Actions::BaseConcern do
   subject(:instance) { dummy_class.new }
@@ -29,39 +30,75 @@ RSpec.describe Undercarriage::Controllers::Restful::Actions::BaseConcern do
 
       define_method(:model_class) { model_class }
       define_method(:instance_name) { "widget" }
-
-      def new_resource_content
-        "new content"
-      end
-
-      def create_resource_content
-        "create content"
-      end
-    end
-  end
-
-  describe "#resource_new_content" do
-    it "delegates to new_resource_content when action_name is `new`" do
-      instance.action_name = "new"
-
-      expect(instance.send(:resource_new_content)).to eq("new content")
-    end
-
-    it "delegates to create_resource_content for any other action_name" do
-      instance.action_name = "create"
-
-      expect(instance.send(:resource_new_content)).to eq("create content")
     end
   end
 
   describe "#resource_content" do
-    it "finds the record by params[:id] and sets @<instance_name>" do
+    it "finds the record by params[:id]" do
       instance.params = { id: 42 }
 
       result = instance.send(:resource_content)
 
       expect(result).to eq("record-42")
-      expect(instance.instance_variable_get(:@widget)).to eq("record-42")
+    end
+  end
+
+  describe "#destroy_content" do
+    it "finds the record by params[:id]" do
+      instance.params = { id: 42 }
+
+      result = instance.send(:destroy_content)
+
+      expect(result).to eq("record-42")
+    end
+  end
+
+  describe "#edit_content" do
+    it "finds the record by params[:id]" do
+      instance.params = { id: 42 }
+
+      result = instance.send(:edit_content)
+
+      expect(result).to eq("record-42")
+    end
+  end
+
+  describe "#show_content" do
+    it "finds the record by params[:id]" do
+      instance.params = { id: 42 }
+
+      result = instance.send(:show_content)
+
+      expect(result).to eq("record-42")
+    end
+  end
+
+  describe "#update_content" do
+    it "finds the record by params[:id]" do
+      instance.params = { id: 42 }
+
+      result = instance.send(:update_content)
+
+      expect(result).to eq("record-42")
+    end
+  end
+
+  describe "overriding #resource_content" do
+    subject(:instance) { dummy_subclass.new }
+
+    let(:dummy_subclass) do
+      Class.new(dummy_class) do
+        def resource_content
+          "overridden"
+        end
+      end
+    end
+
+    it "is honored by destroy_content, edit_content, show_content and update_content" do
+      expect(instance.send(:destroy_content)).to eq("overridden")
+      expect(instance.send(:edit_content)).to eq("overridden")
+      expect(instance.send(:show_content)).to eq("overridden")
+      expect(instance.send(:update_content)).to eq("overridden")
     end
   end
 

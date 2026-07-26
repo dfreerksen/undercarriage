@@ -84,9 +84,17 @@ module Undercarriage
           #     # def resource_content
           #     #   ...
           #     # end
+          #
+          #     ##
+          #     # To change the query for `destroy` only, override `destroy_content` instead. The `show`, `edit` and
+          #     # `update` actions are unaffected
+          #     #
+          #     # def destroy_content
+          #     #   ...
+          #     # end
           #   end
           def destroy_resource_content
-            resource_content
+            instance_variable_set("@#{instance_name}", destroy_content)
           end
 
           private

@@ -46,6 +46,14 @@ module Undercarriage
           protected
 
           ##
+          # New resource content
+          #
+          # @return [Object] the built resource
+          def new_content
+            resource_scope.new
+          end
+
+          ##
           # New restful action
           #
           # @example Controller
@@ -70,15 +78,16 @@ module Undercarriage
           #     # end
           #
           #     ##
-          #     # The `resource_new_content` method can also be overwritten. This method is meant to share content with
-          #     # the `create` action
+          #     # To change the underlying build without touching instance variable assignment, override
+          #     # `new_content` instead. Note this is independent from `create_content` (`create` no longer shares
+          #     # this method with `new`)
           #     #
-          #     # def resource_new_content
+          #     # def new_content
           #     #   ...
           #     # end
           #   end
           def new_resource_content
-            resource_query = resource_scope.new
+            resource_query = new_content
 
             instance_variable_set("@#{instance_name}", resource_query)
           end
@@ -92,7 +101,7 @@ module Undercarriage
           #
           # @return [Object] the built resource
           def new_resource
-            @new_resource ||= resource_new_content
+            @new_resource ||= new_resource_content
           end
         end
       end

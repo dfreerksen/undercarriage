@@ -37,7 +37,7 @@ class PostsController < ApplicationController
 end
 ```
 
-This infers `Post` as the model, sets `@posts`/`@post` as appropriate, and wires up flash messages, strong params, and redirects with no further code. Override the `*_content` hooks (e.g. `resource_content`, `create_resource_content`) or `after_create_action`/`after_update_action` to customize a single action without redefining it — see the YARD docs on each `Undercarriage::Controllers::Restful::*` concern for the full hook list.
+This infers `Post` as the model, sets `@posts`/`@post` as appropriate, and wires up flash messages, strong params, and redirects with no further code. Override the `*_content` hooks (e.g. `show_content`, `create_content`) or `after_create_action`/`after_update_action` to customize a single action without redefining it — see the YARD docs on each `Undercarriage::Controllers::Restful::*` concern for the full hook list.
 
 The standalone concerns can be included individually where you don't want the full RESTful stack:
 

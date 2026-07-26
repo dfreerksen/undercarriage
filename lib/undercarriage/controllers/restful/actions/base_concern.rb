@@ -38,16 +38,6 @@ module Undercarriage
           end
 
           ##
-          # New content action
-          #
-          # Decide what content to load based on action name
-          #
-          # @return [Object,Hash]
-          def resource_new_content
-            action_name == "new" ? new_resource_content : create_resource_content
-          end
-
-          ##
           # Resource action
           #
           # Used for `show`, `edit`, `update` and `destroy` actions unless overwritten
@@ -72,12 +62,52 @@ module Undercarriage
           #     #
           #     #   authorize @example
           #     # end
+          #
+          #     ##
+          #     # To override only a single action's query, override its `*_content` hook instead of `resource_content`
+          #     # itself. The other actions keep using `resource_content`
+          #     #
+          #     # def show_content
+          #     #   super
+          #     #
+          #     #   authorize @example
+          #     # end
           #   end
           def resource_content
             resource_id = params.fetch(:id)
-            resource_query = model_class.find(resource_id)
+            resource_scope.find(resource_id)
+          end
 
-            instance_variable_set("@#{instance_name}", resource_query)
+          ##
+          # Resource content for the `destroy` action
+          #
+          # @return [Object,Hash]
+          def destroy_content
+            resource_content
+          end
+
+          ##
+          # Resource content for the `edit` action
+          #
+          # @return [Object,Hash]
+          def edit_content
+            resource_content
+          end
+
+          ##
+          # Resource content for the `show` action
+          #
+          # @return [Object,Hash]
+          def show_content
+            resource_content
+          end
+
+          ##
+          # Resource content for the `update` action
+          #
+          # @return [Object,Hash]
+          def update_content
+            resource_content
           end
 
           ##

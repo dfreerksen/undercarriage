@@ -66,7 +66,8 @@ Everything is driven off Rails' `controller_name`/`controller_path`. `UtilityCon
 
 Each action concern defines a public action method (e.g. `create`) plus protected/private "content" methods meant to be overridden by the including controller, rather than expecting the whole action to be redefined:
 
-- `resources_content` (index), `resource_content` (show/edit/update/destroy), `create_resource_content`, `resource_new_content` — override to change the underlying query/build (e.g. to add Pundit `authorize`)
+- `resources_content` (index), `resource_content` (show/edit/update/destroy), `create_resource_content`, `new_resource_content` — override to change the underlying query/build (e.g. to add Pundit `authorize`)
+- `index_content`, `new_content`, `create_content`, `show_content`, `edit_content`, `update_content`, `destroy_content` — finer-grained per-action hooks that the `*_resource_content` methods above delegate to (e.g. `show_content`/`edit_content`/`update_content`/`destroy_content` all delegate to `resource_content` by default). Override one of these instead of the shared method above to change a single action's query without affecting its siblings
 - `nested_resource_pre_build` / `nested_resource_build` — hooks for building nested associations (called at different points for new/create vs edit/update — see comments in `base_concern.rb`)
 - `after_create_action` / `after_update_action` — post-persistence callbacks
 - `permitted_attributes` (or the action-specific `permitted_create_attributes`/`permitted_update_attributes`) — strong params
