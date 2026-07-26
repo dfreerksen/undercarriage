@@ -28,7 +28,8 @@ module Undercarriage
       # Items per page
       #
       # The number of items to return in pagination. Will use the Kaminari config `default_per_page` (typically `25`)
-      # for the count and will look for `per` in the URL paramaters to override.
+      # for the count and will look for `per` in the URL paramaters to override. The result is clamped between `1`
+      # and {#per_page_max} so a caller cannot force an unbounded (or negative/zero) number of records per page.
       #
       # This is asseccible from the View as `per_page`
       #
@@ -37,14 +38,16 @@ module Undercarriage
       # @example Request
       #   # GET /examples?per=100 # Return 100 items per page
       #   # GET /examples?per=10&page=3 # Return page 3 of items with 10 items per page
+      #   # GET /examples?per=999999999 # Clamped down to per_page_max
       def per_page
-        params.fetch(per_page_key, per_page_default).to_i
+        params.fetch(per_page_key, per_page_default).to_i.clamp(1, per_page_max)
       end
 
       ##
       # Page number
       #
-      # Will look for the Kaminari config `param_name` (typically `page`) in the URL paramaters.
+      # Will look for the Kaminari config `param_name` (typically `page`) in the URL paramaters. The result is
+      # clamped to a minimum of `1` so a caller cannot force a negative or zero page number.
       #
       # This is asseccible from the View as `page_num`
       #
@@ -54,7 +57,7 @@ module Undercarriage
       #   # GET /examples?page=5 # Return page 5 of items
       #   # GET /examples?per=10&page=3 # Return page 3 of items with 10 items per page
       def page_num
-        params.fetch(page_num_key, page_num_default).to_i
+        params.fetch(page_num_key, page_num_default).to_i.clamp(1, nil)
       end
 
       protected
@@ -99,6 +102,17 @@ module Undercarriage
       # @return [Integer] default page number
       def page_num_default
         1
+      end
+
+      ##
+      # Items per page maximum
+      #
+      # Upper bound enforced on {#per_page} regardless of what the `per` query param requests. Defaults to the
+      # Kaminari config `max_per_page` when set, otherwise `100`. Override to allow a different ceiling.
+      #
+      # @return [Integer] maximum per page count
+      def per_page_max
+        Kaminari.config.max_per_page || 100
       end
     end
   end

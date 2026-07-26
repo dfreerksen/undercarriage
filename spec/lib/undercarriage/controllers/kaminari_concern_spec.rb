@@ -45,10 +45,22 @@ RSpec.describe Undercarriage::Controllers::KaminariConcern do
       expect(instance.per_page).to eq(Kaminari.config.default_per_page)
     end
 
-    it "coerces a non-numeric value to 0" do
+    it "coerces a non-numeric value to the minimum of 1" do
       instance.params = { per: "abc" }
 
-      expect(instance.per_page).to eq(0)
+      expect(instance.per_page).to eq(1)
+    end
+
+    it "clamps a value above per_page_max down to per_page_max" do
+      instance.params = { per: "999999999" }
+
+      expect(instance.per_page).to eq(instance.send(:per_page_max))
+    end
+
+    it "clamps a negative value up to the minimum of 1" do
+      instance.params = { per: "-1" }
+
+      expect(instance.per_page).to eq(1)
     end
   end
 
@@ -65,10 +77,16 @@ RSpec.describe Undercarriage::Controllers::KaminariConcern do
       expect(instance.page_num).to eq(1)
     end
 
-    it "coerces a non-numeric value to 0" do
+    it "coerces a non-numeric value to the minimum of 1" do
       instance.params = { Kaminari.config.param_name => "abc" }
 
-      expect(instance.page_num).to eq(0)
+      expect(instance.page_num).to eq(1)
+    end
+
+    it "clamps a negative value up to the minimum of 1" do
+      instance.params = { Kaminari.config.param_name => "-1" }
+
+      expect(instance.page_num).to eq(1)
     end
   end
 
@@ -81,6 +99,12 @@ RSpec.describe Undercarriage::Controllers::KaminariConcern do
   describe "#page_num_key (protected)" do
     it "delegates to Kaminari.config.param_name" do
       expect(instance.send(:page_num_key)).to eq(Kaminari.config.param_name)
+    end
+  end
+
+  describe "#per_page_max (private)" do
+    it "defaults to 100 when Kaminari.config.max_per_page is not set" do
+      expect(instance.send(:per_page_max)).to eq(100)
     end
   end
 end
