@@ -12,7 +12,7 @@ Undercarriage is a set of concerns to add to your application to trim some of th
 Add to your application's Gemfile
 
 ```bash
-gem 'undercarriage', '~> 1.0'
+gem 'undercarriage', '~> 1.1'
 ```
 
 Run the bundle command
